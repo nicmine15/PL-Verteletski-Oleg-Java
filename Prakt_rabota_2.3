@@ -1,0 +1,28 @@
+import java.util.Scanner;
+
+public class Main
+{
+	public static void main(String[] args) {
+		Scanner in = new Scanner(System.in);
+		String fraza = in.nextLine();
+		char bukva;
+		String fraza_rez = "";
+		fraza = fraza.toLowerCase();
+		for (int i = 0; i < fraza.length(); i++) {
+		    bukva = fraza.charAt(i);
+		    if (bukva == 'а' || bukva == 'я' || //рус. гласные
+		    bukva == 'э' || bukva == 'е' || 
+		    bukva == 'ы' || bukva == 'и' || 
+		    bukva == 'о' || bukva == 'ё' || 
+		    bukva == 'у' || bukva == 'ю' || 
+		    bukva == 'a' || bukva == 'e' ||     //англ. гласные
+		    bukva == 'i' || bukva == 'o' ||    
+		    bukva == 'u') {
+		        fraza_rez = fraza_rez;
+		    } else {
+		        fraza_rez += bukva;
+		    }
+		}
+		System.out.println(fraza_rez);
+	}
+}
