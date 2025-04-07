@@ -1,0 +1,20 @@
+import java.util.Scanner;
+
+public class Main
+{
+	public static void main(String[] args) {
+ 		String poryad = "";
+ 		Scanner in = new Scanner(System.in);
+ 		System.out.println("Введите первое число: ");
+		int perv = in.nextInt();
+		System.out.println("Введите число-шаг: ");
+		int vtor = in.nextInt();
+		System.out.println("Введите количество шагов: ");
+		int tret = in.nextInt();
+		for (int i = perv; i <= tret * vtor; i += vtor) {
+		    poryad += Integer.toString(i) + ", ";
+		}
+		var rez = perv + " " + vtor + " " + tret + " -> " + poryad;
+		System.out.println(rez.substring(0, rez.length() - 2));
+	}
+}
