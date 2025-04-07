@@ -1,0 +1,25 @@
+import java.util.Scanner;
+
+public class Main
+{
+	public static void main(String[] args) {
+ 		String poryad = "";
+ 		Scanner in = new Scanner(System.in);
+ 		System.out.println("Введите первое число: ");
+		int perv = in.nextInt();
+		System.out.println("Введите второе число: ");
+		int vtor = in.nextInt();
+		if (perv > vtor) {
+		    for (int i = vtor; i <= perv; i++) {
+		        poryad += Integer.toString(i * i) + ", ";
+		    }
+		}
+		if (vtor > perv) {
+		    for (int i = perv; i <= vtor; i++) {
+		        poryad += Integer.toString(i * i) + ", ";
+		    }
+		}
+		var rez = perv + ", " + vtor + " -> " + poryad;
+		System.out.println(rez.substring(0, rez.length() - 2));
+	}
+}
