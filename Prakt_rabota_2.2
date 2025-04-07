@@ -1,7 +1,10 @@
+import java.util.Scanner;
+
 public class Main
 {
 	public static void main(String[] args) {
-		String imja = "аНнА";
+ 		Scanner in = new Scanner(System.in);
+		String imja = in.nextLine();
 		imja = imja.toLowerCase();
 		System.out.println("Привет, " + imja.substring(0, 1).toUpperCase() + imja.substring(1) + "!");
 	}
