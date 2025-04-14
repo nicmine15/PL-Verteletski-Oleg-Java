@@ -1,0 +1,30 @@
+import java.util.Scanner;
+
+public class Main{
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        String in = scanner.nextLine();
+        
+        int zaglav = 0;
+        int stroch = 0;
+
+        for (char c : in.toCharArray()) {
+            if (Character.isUpperCase(c)) {
+                zaglav++;
+            } else if (Character.isLowerCase(c)) {
+                stroch++;
+            }
+        }
+
+        String result;
+        if (zaglav > stroch) {
+            result = in.toUpperCase();
+        } else if (stroch > zaglav) {
+            result = in.toLowerCase();
+        } else {
+            result = in.toLowerCase();
+        }
+
+        System.out.println(result);
+    }
+}
