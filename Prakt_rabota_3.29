@@ -1,0 +1,21 @@
+import java.util.Scanner;
+
+public class Main
+{
+	public static void main(String[] args) {
+		Scanner scanner = new Scanner(System.in);
+		int in = scanner.nextInt();
+		int k = 0;
+		for (int i = 1; i < 1000; i++) {
+		    if (in == ((i + 1) * (i + 1)) - (i * i)) {
+		        System.out.println(in + " = " + ((i + 1) * (i + 1)) + "-" + (i * i));
+		        k += 1;
+		    } else {
+		        continue;
+		    }
+		}
+		if (k == 0) {
+		    System.out.println("Нет такой разницы!");
+		}
+	}
+}
