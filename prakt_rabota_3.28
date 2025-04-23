@@ -1,0 +1,28 @@
+import java.util.Scanner;
+
+public class Main {
+    public static String shifrCaesar(String txt, int s, String d) {
+        StringBuilder res = new StringBuilder();
+        for (char c : txt.toCharArray()) {
+            if (Character.isLetter(c)) {
+                int sdvig = d.equals("right") ? s : -s;
+                char osnova = Character.isUpperCase(c) ? 'A' : 'a';
+                res.append((char) ((c - osnova + sdvig + 26) % 26 + osnova));
+            } else {
+                res.append(c);
+            }
+        }
+        return res.toString();
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Введите строку для шифрования: ");
+        String text = scanner.nextLine();
+        System.out.print("Введите число сдвига: ");
+        int shift = scanner.nextInt();
+        System.out.print("Введите направление (right/left): ");
+        String direction = scanner.next();
+        System.out.println("Зашифрованный текст: " + shifrCaesar(text, shift, direction));
+    }
+}
