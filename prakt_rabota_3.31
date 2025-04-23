@@ -1,0 +1,47 @@
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+
+public class Main {
+    public static int chooseBestSum(int maxDist, int cityCount, int[] distances) {
+        int bestSum = 0;
+        List<List<Integer>> combinations = new ArrayList<>();
+        combine(combinations, new ArrayList<>(), distances, cityCount, 0);
+
+        for (List<Integer> combo : combinations) {
+            int currentSum = combo.stream().mapToInt(Integer::intValue).sum();
+            if (currentSum <= maxDist && currentSum > bestSum) {
+                bestSum = currentSum;
+            }
+        }
+        return bestSum;
+    }
+
+    private static void combine(List<List<Integer>> combinations, List<Integer> tempList, int[] distances, int cityCount, int start) {
+        if (tempList.size() == cityCount) {
+            combinations.add(new ArrayList<>(tempList));
+            return;
+        }
+        for (int i = start; i < distances.length; i++) {
+            tempList.add(distances[i]);
+            combine(combinations, tempList, distances, cityCount, i + 1);
+            tempList.remove(tempList.size() - 1);
+        }
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Введите максимальное расстояние: ");
+        int maxDist = scanner.nextInt();
+        System.out.print("Введите количество городов: ");
+        int cityCount = scanner.nextInt();
+        System.out.print("Введите расстояния между городами (разделенные пробелом): ");
+        scanner.nextLine();  // Очистка буфера
+        String[] distStrings = scanner.nextLine().split(" ");
+        int[] distances = new int[distStrings.length];
+        for (int i = 0; i < distStrings.length; i++) {
+            distances[i] = Integer.parseInt(distStrings[i]);
+        }
+        System.out.println("Лучшее расстояние: " + chooseBestSum(maxDist, cityCount, distances));
+    }
+}
