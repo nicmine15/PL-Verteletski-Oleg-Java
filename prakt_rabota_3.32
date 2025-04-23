@@ -1,0 +1,47 @@
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Scanner;
+
+public class Main {
+    public static long fib(int n) {
+        if (n <= 2) return 1;
+        long a = 1, b = 1;
+        for (int i = 3; i <= n; i++) {
+            long c = a + b;
+            a = b;
+            b = c;
+        }
+        return b;
+    }
+
+    public static Map.Entry<Integer, Integer> mostFrequentDigit(long number) {
+        Map<Integer, Integer> digitCount = new HashMap<>();
+        for (char c : Long.toString(number).toCharArray()) {
+            int digit = Character.getNumericValue(c);
+            digitCount.put(digit, digitCount.getOrDefault(digit, 0) + 1);
+        }
+        Map.Entry<Integer, Integer> mostFrequent = null;
+        for (Map.Entry<Integer, Integer> entry : digitCount.entrySet()) {
+            if (mostFrequent == null || 
+                entry.getValue() > mostFrequent.getValue() || 
+                (entry.getValue().equals(mostFrequent.getValue()) && entry.getKey() < mostFrequent.getKey())) {
+                mostFrequent = entry;
+            }
+        }
+        return mostFrequent;
+    }
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Введите индекс i (10 ≤ i ≤ 100000): ");
+        int i = scanner.nextInt();
+        if (i < 10 || i > 100000) {
+            System.out.println("Индекс должен быть в диапазоне от 10 до 100000.");
+            scanner.close();
+            return;
+        }
+        long fibNumber = fib(i);
+        System.out.println("f(" + i + ") = " + fibNumber);
+        Map.Entry<Integer, Integer> result = mostFrequentDigit(fibNumber);
+        System.out.println("Наибольшее вхождение: " + result.getValue() + " раз(а), цифра: " + result.getKey());
+    }
+}
