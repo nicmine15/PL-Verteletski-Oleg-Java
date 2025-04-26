@@ -25,7 +25,7 @@ public class Main
 		    System.out.println("Совпавших цифр: " + k);
 		    k = 0;
             s++;
-            System.out.println("Осталось попыток: " + (20 - s));
+            System.out.println("Осталось попыток: " + (20 - s) + "\n");
             if (s == 20) {
                 System.out.println("Увы. " + ran);
                 scanner.close();
