@@ -1,0 +1,39 @@
+import java.util.Scanner;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Arrays;
+
+public class Main
+{
+	public static void main(String[] args) {
+		Scanner scanner = new Scanner(System.in);
+		System.out.print("Введите количество игроков: ");
+		int cislo = scanner.nextInt();
+		System.out.print("Введите номер 1го игрока: ");
+		Integer pervy =  scanner.nextInt();
+		scanner.close();
+		int k = 0;
+		List<String> list = new ArrayList<>();
+		List<String> tsil = new ArrayList<>();
+		for (int i = 0; i < cislo; i++) {
+		    list.add(Integer.toString(pervy + i));
+		}
+		String cifra = "";
+		System.out.println("```java " + list + " - initial sequence");
+		while (list.size() != 0) {
+		    for (int j = 0; j < list.size(); j++) {
+		        if ((k + 1) % 3 == 0) {
+		            tsil.add(list.get(j));
+		            cifra = list.get(j);
+		            list.remove(j);
+		            System.out.println(list + " => " + cifra + " is counted out and goes into the result " + tsil);
+		            j--;
+		            k++;
+		        } else {
+		            k++;
+		        }
+		    }
+		}
+		System.out.println("```");
+	}
+}
