@@ -1,0 +1,36 @@
+import java.util.Scanner;
+import java.util.Random;
+
+public class Main
+{
+	public static void main(String[] args) {
+		Scanner scanner = new Scanner(System.in);
+		Random random = new Random();
+        System.out.println("У вас 20 попыток.");
+		int k = 0;
+		int s = 0;
+		int userovo = 0;
+		int ran = random.nextInt(9999 - 1000 + 1) + 1000;
+		String[] ransp = Integer.toString(ran).split("");
+		while (ran != userovo) {
+		    userovo = scanner.nextInt();
+		    String[] usersp = Integer.toString(userovo).split("");
+		    for (int i = 0; i < 4; i++) {
+		        if (usersp[i].equals(ransp[i])) {
+    		        k++;
+		        } else {
+		            k += 0;
+		        }
+		    }
+		    System.out.println("Совпавших цифр: " + k);
+		    k = 0;
+            s++;
+            System.out.println("Осталось попыток: " + (20 - s));
+            if (s == 20) {
+                System.out.println("Увы. " + ran);
+                scanner.close();
+            }
+		}
+        System.out.println("Правильно! " + ran);
+	}
+}
