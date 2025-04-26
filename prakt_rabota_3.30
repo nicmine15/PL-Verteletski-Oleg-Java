@@ -1,0 +1,29 @@
+import java.util.Scanner;
+
+public class Main
+{
+	public static void main(String[] args) {
+		Scanner scanner = new Scanner(System.in);
+        System.out.print("Введите число: ");
+		int cislo = scanner.nextInt();
+        System.out.print("Введите степень числа: ");
+		int step = scanner.nextInt();
+        int constep = step;
+        String vivod = "sC(" + cislo + ", " + constep + ") => ";
+        int sum = 0;
+        String pokrasotef = "";
+        String proiz = cislo + "*" + step;
+		String[] cislos = Integer.toString(cislo).split("");
+        for (int i = 0; i < cislos.length; i++) {
+            sum += Math.pow(Integer.parseInt(cislos[i]), step);
+            pokrasotef += cislos[i] + "^" + Integer.toString(step) + " + ";
+            step++;
+        }
+        pokrasotef = pokrasotef.substring(0, pokrasotef.length() - 3);
+        if (sum == cislo * constep) {
+            System.out.println(vivod + pokrasotef + " = " + sum + " = " + proiz);
+        } else {
+            System.out.println(vivod + pokrasotef + " = " + sum + " ≠ " + proiz + "\n(" + cislo + "*" + constep + " = " + (cislo * constep) + ")");
+        }
+	}
+}
