@@ -8,7 +8,7 @@ public class Main
 		Scanner scanner = new Scanner(System.in);
 		int chislo = scanner.nextInt();
 		String rez = "";
-		if (chislo < 10000) {
+		if (chislo < 10000 && chislo > 0) {
 		    ArrayList<Integer> razdel = new ArrayList<>();
 		    for (int i = ("" + chislo).length() - 1; i >= 0; i--) {
 		        razdel.add(chislo / (int) Math.pow(10, i) * (int) Math.pow(10, i));
