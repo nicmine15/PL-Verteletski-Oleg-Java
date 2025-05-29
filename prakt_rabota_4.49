@@ -1,0 +1,34 @@
+public class Main {
+    public static long fib(int n) {
+        long a = 0;
+        long b = 1;
+        long vrem;
+        for(int i = 0; i < n; i++) {
+            vrem = a + b;
+            a = b;
+            b = vrem;
+        }
+        return a; 
+    }
+
+    public static long fusc(int n) {
+        long[] pamyat = new long[n + 2];
+        pamyat[0] = 0; 
+        pamyat[1] = 1;
+        for(int i = 2; i <= n; i++) {
+            if (i % 2 == 0) {
+                pamyat[i] = pamyat[i / 2];
+            } else{
+                pamyat[i] = pamyat[i / 2] + pamyat[i / (2 + 1)];
+            }
+        }
+        return pamyat[n];
+    }
+
+    public static void main(String[] args) {
+        for(int i = 0; i < 10; i++) {
+            System.out.print("fib(" + i +") = " + fib(i));
+            System.out.println("\t fusc(" + i +") = " + fusc(i));
+        }
+    }
+}
