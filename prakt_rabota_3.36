@@ -1,0 +1,34 @@
+import java.net.*;
+import java.io.*;
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) throws Exception {
+        String t = new String(new URL("https://fish-text.ru/get?type=all&number=10000").openStream().readAllBytes(), "UTF-8");
+        Map<Character, Integer> f = new HashMap<>();
+        for (char c : t.toLowerCase().toCharArray()) {
+            if (Character.isLetter(c)){
+                f.put(c, f.getOrDefault(c, 0) + 1);
+            }
+        }
+        char max = ' ';
+        int maxC = -1;
+        for (var e : f.entrySet()) {
+            if (e.getValue() > maxC) {
+                max = e.getKey(); maxC = e.getValue();
+            }
+        }
+        int s = (max - 'о' + 26) % 26;
+        String r = "";
+        for (char c : t.toCharArray()) {
+            if (Character.isLetter(c)) {
+                char b = Character.isUpperCase(c) ? 'A' : 'a';
+                r += (char)((c - b - s + 26) % 26 + b);
+            } else {
+                r += c;
+            }
+        }
+        System.out.println("Сдвиг: " + s);
+        System.out.println("Расшифровка: " + r);
+    }
+}
