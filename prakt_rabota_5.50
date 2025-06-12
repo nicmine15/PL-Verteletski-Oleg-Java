@@ -1,0 +1,146 @@
+import java.util.*;
+import java.io.*;
+
+public class Calculator {
+    private static final String HISTORY_FILE = "calculator_history.txt";
+    private static Scanner scanner = new Scanner(System.in);
+
+    public static void main(String[] args) {
+        System.out.println("Калькулятор");
+        System.out.println("Доступные операции: + - * / // % ^ |x|");
+
+        while (true) {
+            System.out.print("\nВведите уравнение (или 'history', 'exit'): ");
+            String input = scanner.nextLine().trim();
+
+            if (input.equalsIgnoreCase("exit")) break;
+            if (input.equalsIgnoreCase("history")) {
+                showHistory();
+                continue;
+            }
+
+            try {
+                double result = evaluateExpression(input);
+                System.out.println("Результат: " + result);
+                saveToHistory(input, result);
+            } catch (Exception e) {
+                System.out.println("Ошибка: " + e.getMessage());
+            }
+        }
+    }
+
+    private static double evaluateExpression(String expr) {
+        expr = expr.replaceAll("\\s+", "");
+        return parseAddSub(new StringBuilder(expr));
+    }
+
+    private static double parseAddSub(StringBuilder expr) {
+        double left = parseMulDivMod(expr);
+        while (expr.length() > 0) {
+            char op = expr.charAt(0);
+            if (op != '+' && op != '-') break;
+            expr.deleteCharAt(0);
+            double right = parseMulDivMod(expr);
+            left = (op == '+') ? left + right : left - right;
+        }
+        return left;
+    }
+
+    private static double parseMulDivMod(StringBuilder expr) {
+        double left = parsePow(expr);
+        while (expr.length() > 0) {
+            char op = expr.charAt(0);
+            if (op != '*' && op != '/' && op != '%') break;
+
+            boolean isFloorDiv = (op == '/' && expr.length() > 1 && expr.charAt(1) == '/');
+            if (isFloorDiv) expr.deleteCharAt(0);
+
+            expr.deleteCharAt(0);
+            double right = parsePow(expr);
+
+            if (op == '*') left *= right;
+            else if (op == '/') {
+                if (isFloorDiv) left = Math.floor(left / right);
+                else left /= right;
+            } else if (op == '%') left %= right;
+        }
+        return left;
+    }
+
+    private static double parsePow(StringBuilder expr) {
+        double left = parseUnary(expr);
+        while (expr.length() > 0 && expr.charAt(0) == '^') {
+            expr.deleteCharAt(0);
+            double right = parseUnary(expr);
+            left = Math.pow(left, right);
+        }
+        return left;
+    }
+
+    private static double parseUnary(StringBuilder expr) {
+        if (expr.length() == 0) throw new RuntimeException("Неожиданный конец выражения");
+
+        if (expr.charAt(0) == '|') {
+            expr.deleteCharAt(0);
+            double value = parseAddSub(expr);
+            if (expr.length() == 0 || expr.charAt(0) != '|')
+                throw new RuntimeException("Не закрыт модуль |");
+            expr.deleteCharAt(0);
+            return Math.abs(value);
+        }
+
+        boolean isNegative = false;
+        if (expr.charAt(0) == '+') expr.deleteCharAt(0);
+        else if (expr.charAt(0) == '-') {
+            isNegative = true;
+            expr.deleteCharAt(0);
+        }
+
+        double value = parseAtom(expr);
+        return isNegative ? -value : value;
+    }
+
+    private static double parseAtom(StringBuilder expr) {
+        if (expr.length() == 0) throw new RuntimeException("Ожидалось число");
+
+        if (expr.charAt(0) == '(') {
+            expr.deleteCharAt(0);
+            double value = parseAddSub(expr);
+            if (expr.length() == 0 || expr.charAt(0) != ')')
+                throw new RuntimeException("Не закрыта скобка )");
+            expr.deleteCharAt(0);
+            return value;
+        }
+
+        StringBuilder numStr = new StringBuilder();
+        while (expr.length() > 0 && (Character.isDigit(expr.charAt(0)) || expr.charAt(0) == '.')) {
+            numStr.append(expr.charAt(0));
+            expr.deleteCharAt(0);
+        }
+
+        if (numStr.length() == 0)
+            throw new RuntimeException("Ожидалось число, но получено: " + (expr.length() > 0 ? expr.charAt(0) : "конец строки"));
+
+        return Double.parseDouble(numStr.toString());
+    }
+    
+    private static void saveToHistory(String expr, double result) {
+        try (PrintWriter out = new PrintWriter(new FileWriter(HISTORY_FILE, true))) {
+            out.println(expr + " = " + result);
+        } catch (IOException e) {
+            System.out.println("Ошибка сохранения истории: " + e.getMessage());
+        }
+    }
+    
+    private static void showHistory() {
+        try (Scanner fileScanner = new Scanner(new File(HISTORY_FILE))) {
+            System.out.println("\nИстория операций:");
+            int i = 1;
+            while (fileScanner.hasNextLine()) {
+                System.out.println(i++ + ". " + fileScanner.nextLine());
+            }
+        } catch (FileNotFoundException e) {
+            System.out.println("История пуста.");
+        }
+    }
+}
